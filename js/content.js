@@ -473,7 +473,13 @@ window.COURSE = {
         "label": "Describe one leadership challenge you've faced in the past month, whether at work, home, or in your community.",
         "type": "textarea",
         "required": false
-       },
+       }
+      ]
+     },
+     {
+      "heading": "LEADERSHIP REFLECTION (OPEN-ENDED)",
+      "intro": "",
+      "items": [
        {
         "id": "24.0",
         "label": "What's one leadership behavior you most want to improve during this experience?",
@@ -1076,7 +1082,13 @@ window.COURSE = {
         "label": "Think of a specific moment during the Accelerator when conditions changed, something went wrong, people disagreed or pressure increased. Which practice or tool did you use, and what did it help you do differently?",
         "type": "textarea",
         "required": false
-       },
+       }
+      ]
+     },
+     {
+      "heading": "LEADERSHIP REFLECTION (OPEN-ENDED)",
+      "intro": "",
+      "items": [
        {
         "id": "24.0",
         "label": "What's one leadership behavior you commit to sustaining and strengthening over the next 90 days?",
@@ -1188,7 +1200,8 @@ window.COURSE = {
          "No",
          "Not sure",
          "I don't have a manager"
-        ]
+        ],
+        "row": true
        },
        {
         "id": "F2",
@@ -1223,7 +1236,13 @@ window.COURSE = {
         ],
         "row": true,
         "break_before": "Haven't seen enough of this"
-       },
+       }
+      ]
+     },
+     {
+      "heading": "HOW YOUR MANAGER HAS LED",
+      "intro": "",
+      "items": [
        {
         "id": "31.0",
         "label": "Priorities change, sometimes with little warning. Leaders respond to that differently.\nWhen priorities or conditions change, my manager adjusts while helping us stay focused and keep moving.",
@@ -1239,13 +1258,7 @@ window.COURSE = {
         ],
         "row": true,
         "break_before": "Haven't seen enough of this"
-       }
-      ]
-     },
-     {
-      "heading": "HOW YOUR MANAGER HAS LED",
-      "intro": "",
-      "items": [
+       },
        {
         "id": "32.0",
         "label": "Every role involves setbacks. Some people move on from them quickly, others stay with them longer.\nAfter setbacks or difficult moments, my manager recovers, refocuses and helps us learn and move forward.",
@@ -1261,7 +1274,13 @@ window.COURSE = {
         ],
         "row": true,
         "break_before": "Haven't seen enough of this"
-       },
+       }
+      ]
+     },
+     {
+      "heading": "HOW YOUR MANAGER HAS LED",
+      "intro": "",
+      "items": [
        {
         "id": "33.0",
         "label": "Leaders differ in how much they spell out what matters most right now.\nMy manager creates clarity about what matters most and connects our priorities to what the business needs.",
@@ -1277,13 +1296,7 @@ window.COURSE = {
         ],
         "row": true,
         "break_before": "Haven't seen enough of this"
-       }
-      ]
-     },
-     {
-      "heading": "HOW YOUR MANAGER HAS LED",
-      "intro": "",
-      "items": [
+       },
        {
         "id": "34.0",
         "label": "How a leader manages their own energy tends to show in how they turn up.\nWhen demands increase, my manager manages their own capacity in ways that support sustained performance for themselves and the team.",
@@ -1299,7 +1312,13 @@ window.COURSE = {
         ],
         "row": true,
         "break_before": "Haven't seen enough of this"
-       },
+       }
+      ]
+     },
+     {
+      "heading": "HOW YOUR MANAGER HAS LED",
+      "intro": "",
+      "items": [
        {
         "id": "35.0",
         "label": "Leaders can have intentions. Turning them into finished work takes something else, and leaders differ in how well they do it.\nMy manager turns priorities into clear decisions and follow-through that help us move important work forward.",
@@ -1315,13 +1334,7 @@ window.COURSE = {
         ],
         "row": true,
         "break_before": "Haven't seen enough of this"
-       }
-      ]
-     },
-     {
-      "heading": "HOW YOUR MANAGER HAS LED",
-      "intro": "",
-      "items": [
+       },
        {
         "id": "36.0",
         "label": "Leaders often know what they want to do, and still find it harder to do when conditions get hard.\nWhen conditions change, the path is unclear or pressure increases, my manager continues to demonstrate effective decision-making and leadership.",
