@@ -1,14 +1,14 @@
-/* The demo's stops and steps (v4, Oct 14, 2026): the run of show agreed with Melissa and Shari, covering Melissa's
+/* The demo's stops and steps (v5, Oct 14, 2026): the run of show agreed with Melissa and Shari, covering Melissa's
    points (the season from onboarding on, conditioning in action, learning transfer, the human connection, measurable
    impact; building the M.V.P., the Core 4 insights, the 90-day plan; the Pros; Squad Meetups) and Shari's (one leader
    and their manager throughout, the room makes one decision, honest measures, a close on business value).
    demo.js plays them; the run sheet is printed from the same list (build_demo.py), so the two never drift apart.
    card = a chapter card drawn by the demo; course = module + screen id, opened live; pdf = a document page.
-   short = the agenda label; min = planned minutes (15 in all). */
+   short = the agenda label; min = planned minutes (15 in all); voice = the course's own narration plays on that step. */
 window.DEMO_STOPS = [
   { title: 'Welcome', short: '', min: 0, steps: [
     { card: 'title', label: 'Welcome',
-      say: 'Thank you for having us. For the next 15 minutes you’ll see the M.V.P. Accelerator the way your leaders will: one participant, Jordan, and Jordan’s manager, through a full season. And you’ll make one of the calls yourselves.',
+      say: 'Thank you for having us. For the next 15 minutes you’ll see the M.V.P. Accelerator the way your leaders will: one leader and their manager, through a full season. And you’ll make one of the calls yourselves.',
       do: 'Press Next, the right arrow or your clicker to start. F for full screen; the bars hide until you move the mouse.' }] },
   { title: 'The promise', short: 'The promise', min: 1.5, steps: [
     { card: 'opener', label: 'Why conditioning',
@@ -25,18 +25,18 @@ window.DEMO_STOPS = [
       say: 'Four leadership muscles we condition: Agility, Resilience, Alignment and Wellbeing. Each one shows what it’s made of and a test leaders can run on themselves.',
       do: 'Open one or two of the tabs.' },
     { course: 'a1', screen: '1.8b', label: 'Your Starting Line',
-      say: 'Jordan rates where they start, privately. These Core 4 insights show strengths and gaps, and they’re the starting line we come back to at the end of the season.',
+      say: 'Each leader rates where they start, privately. These Core 4 insights show strengths and gaps, and they’re the starting line we come back to at the end of the season.',
       do: 'Ask the room for one rating and change it live.' }] },
   { title: 'Condition', short: 'Condition', min: 3, steps: [
-    { course: 'a1', screen: '1.1', label: 'The Moment',
+    { course: 'a1', screen: '1.1', label: 'The Moment', voice: true,
       say: 'Every lesson starts with a real moment of pressure from a workday. Not a case study about someone else: a moment your leaders will recognize.',
-      do: 'Read the scene aloud.' },
-    { course: 'a1', screen: '1.10', label: 'Make the Call',
+      do: 'The course’s voice speaks first (9 seconds). Let it finish, then read the scene aloud.' },
+    { course: 'a1', screen: '1.10', label: 'Make the Call', voice: true,
       say: 'Now it’s your call. Thirty seconds: what do you do first, and what might your first reaction make you miss?',
-      do: 'Start the 30-second timer, take a show of hands, choose their answer and read the outcome.' },
+      do: 'The course sets up the call (9 seconds). Then start the 30-second timer and take a show of hands. Choose the room’s answer and let the course say where it leads (about 13 seconds).' },
     { course: 'a1', screen: '1.R', label: 'The Foundation Reset',
       say: 'Under pressure, the brain’s alarm fires faster than the part that plans. The Foundation Reset is five words, two options, one default: a way to tell the alarm to stand down, practiced until it’s automatic.',
-      do: 'Point to Jordan’s five words.' },
+      do: 'Point to the sample five words.' },
     { course: 'a1', screen: '1.3', label: 'The Drill',
       say: 'Then a short drill to rehearse the response, the way athletes run plays. That’s the difference between knowing what good leadership looks like and doing it when it counts.',
       do: 'Play 15 to 20 seconds, then move on.' }] },
@@ -70,17 +70,17 @@ window.DEMO_STOPS = [
       say: 'Managers take their own track as Player-Coaches. In their first lesson they hold the Starting Line conversation with their Athleader: agree on the season and name what each of them needs.',
       do: 'Point to the five steps of the conversation.' },
     { card: 'r180', label: 'The 180',
-      say: 'At the end of the season each gives feedback on the other in the 180: Jordan on their Player-Coach, and the Player-Coach on Jordan. The manager isn’t running a separate process; they’re coaching the same season.',
+      say: 'At the end of the season each gives feedback on the other in the 180: the leader on their Player-Coach, and the Player-Coach on the leader. The manager isn’t running a separate process; they’re coaching the same season.',
       do: 'Point to the two sides, then the 180 between them.' },
     { card: 'squad', label: 'Squad Meetups',
       say: 'Squad Meetups bring peers together for real-time practice in a real-world setting: high stakes, low risk, on specific business situations and personal challenges. They run alongside the course.',
       do: 'This is a summary card; describe the format in your own words.' }] },
   { title: 'Measure and close', short: 'Measure', min: 2.5, steps: [
     { course: 'a6', screen: '6.9', label: 'Then and Now',
-      say: 'Every lesson ends with a Pulse Check, so the trend is visible all season. In Lesson 6, Jordan sees their Lesson 1 starting line next to today. These are Jordan’s own ratings, pillar by pillar.',
+      say: 'Every lesson ends with a Pulse Check, so the trend is visible all season. In Lesson 6, each leader sees their Lesson 1 starting line next to today: their own ratings, pillar by pillar. The ones on screen are sample answers.',
       do: 'Point to the gains.' },
     { course: 'a6', screen: 'E3c', label: 'What’s different now',
-      say: 'Remember the promise from the start? This is where it comes back. Where Jordan started, and where they are now, in their own words, with their five words from Lesson 1.',
+      say: 'Remember the promise from the start? This is where it comes back. Where the leader started, and where they are now, in their own words, with their five words from Lesson 1.',
       do: 'Select one “True for me now?” to show the answer, then read the line at the bottom.' },
     { card: 'cohort', label: 'Across a cohort',
       say: 'Across a cohort, matched pre, Pulse and post results show where the group is growing. This view is an illustrative sample: your own data replaces it. The measures are self-reported, and we say so.',

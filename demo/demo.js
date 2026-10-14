@@ -1,5 +1,5 @@
 /* M.V.P. Accelerator, 15-minute demo (v2, Oct 14, 2026).
-   One participant (Jordan, an Athleader) and their manager (a Player-Coach) across a season, shown on the real course
+   One participant (an Athleader) and their manager (a Player-Coach) across a season, shown on the real course
    screens. The course runs in frames from the same site in its review view (open navigation). Inside each frame the
    demo hides the course's own bars, menu and controls and lets the slide fill the frame, so the room sees one set of
    controls; it stops any narration or video that isn't on the screen in front of the room. A sample learner (name,
@@ -13,19 +13,19 @@
 
   /* ---------------- the course modules the demo opens ---------------- */
   const MODS = {
-    a0: { track: 'ath', dir: 'M0_Getting_Started', n: 0, lens: 'Jordan · Athleader · Getting Started' },
-    a1: { track: 'ath', dir: 'M1_Lesson_1', n: 1, lens: 'Jordan · Athleader · Lesson 1' },
-    a3: { track: 'ath', dir: 'M3_Lesson_3', n: 3, lens: 'Jordan · Athleader · Lesson 3' },
-    a5: { track: 'ath', dir: 'M5_Lesson_5', n: 5, lens: 'Jordan · Athleader · Lesson 5' },
-    a6: { track: 'ath', dir: 'M6_Lesson_6', n: 6, lens: 'Jordan · Athleader · Lesson 6' },
-    p1: { track: 'pc', dir: 'M1_Lesson_1', n: 1, lens: 'Jordan’s manager · Player-Coach · Lesson 1' }
+    a0: { track: 'ath', dir: 'M0_Getting_Started', n: 0, lens: 'Athleader · Getting Started' },
+    a1: { track: 'ath', dir: 'M1_Lesson_1', n: 1, lens: 'Athleader · Lesson 1' },
+    a3: { track: 'ath', dir: 'M3_Lesson_3', n: 3, lens: 'Athleader · Lesson 3' },
+    a5: { track: 'ath', dir: 'M5_Lesson_5', n: 5, lens: 'Athleader · Lesson 5' },
+    a6: { track: 'ath', dir: 'M6_Lesson_6', n: 6, lens: 'Athleader · Lesson 6' },
+    p1: { track: 'pc', dir: 'M1_Lesson_1', n: 1, lens: 'Player-Coach (manager) · Lesson 1' }
   };
   const TRACKNAME = { ath: 'athleader', pc: 'playercoach' };
   const modUrl = k => CFG[MODS[k].track] + MODS[k].dir + '/' + encodeURIComponent(CFG.view);
   const SCORECARD = CFG.ath + 'M1_Lesson_1/resources/90-Day_Way_Core_4_Scorecard_Example.pdf';
 
   /* ---------------- the demo learner, reset on every load ---------------- */
-  const WHO = { id: 'DEMO-0001', first: 'Jordan', last: 'Lee' };
+  const WHO = { id: 'DEMO-0001', first: 'Sample', last: 'Learner' };   // never named on screen
   const BASE = { Agility: 2, Resilience: 3, Alignment: 2, Wellbeing: 2 };     // Lesson 1, Your Starting Line
   const TODAY = { Agility: 4, Resilience: 4, Alignment: 4, Wellbeing: 3 };    // Lesson 6, Then and Now
   const WHY = 'My team takes its cue from me. When I stay steady under pressure, they do too, and I want to be home for dinner while we hit our numbers.';
@@ -92,10 +92,10 @@
       <p class="eyebrow rise" style="--d:.05s">End of the season</p><h2 class="rise" style="--d:.15s">The 180: two views of one season</h2>
       <div class="pair">
         <figure class="side ath rise" style="--d:.4s"><div class="ph" style="background-image:url(assets/r180_ath.jpg)"></div>
-          <figcaption><span class="who"><i></i>Jordan · Athleader</span><b>Your view of your Player-Coach</b><span>Their view of your growth, and yours</span></figcaption></figure>
+          <figcaption><span class="who"><i></i>Athleader</span><b>Your view of your Player-Coach</b><span>Their view of your growth, and yours</span></figcaption></figure>
         <div class="hub pop" style="--d:.95s"><svg viewBox="0 0 120 120" aria-hidden="true"><path class="arc a1" d="M22 52 A40 40 0 0 1 98 52"/><path class="arc a2" d="M98 68 A40 40 0 0 1 22 68"/><path class="tip" d="M92 42 L99 54 L106 43"/><path class="tip" d="M28 78 L21 66 L14 77"/></svg><span>180</span></div>
         <figure class="side pc rise" style="--d:.6s"><div class="ph" style="background-image:url(assets/r180_pc.jpg)"></div>
-          <figcaption><span class="who"><i></i>Jordan’s manager · Player-Coach</span><b>Your view of your Athleader</b><span>Your view of their growth, and theirs of you</span></figcaption></figure>
+          <figcaption><span class="who"><i></i>Player-Coach · their manager</span><b>Your view of your Athleader</b><span>Your view of their growth, and theirs of you</span></figcaption></figure>
       </div>
       <p class="fine rise" style="--d:1.25s">Just before it, each retakes the assessment from the start of the season. A Growth Guide comes with the results.</p></div></div>`,
     squad: () => `<div class="card"><div class="bg" style="background-image:url(assets/faces.jpg)"></div><div class="veil"></div><div class="in">
@@ -150,7 +150,17 @@
 
   /* ---------------- frames: one per module, kept once loaded ---------------- */
   const frames = {}, framesEl = $('#frames'), cardHost = $('#cardHost'), loading = $('#loading'), lens = $('#lens');
-  let narration = false, activeKey = null;
+  let activeKey = null;
+  // sound: the course's voice speaks only on the steps marked voice: true; the presenter can mute it or turn it down at
+  // any time (speaker button or M; slider or Up / Down). The level applies to everything the demo plays.
+  const sound = { muted: false, vol: 0.9 };
+  const voiceOn = () => !!(FLAT[cur] && FLAT[cur].voice);
+  function level(m) { try { m.volume = sound.vol; m.muted = sound.muted; } catch (e) { } }
+  function applySound() {
+    document.querySelectorAll('video,audio').forEach(level);
+    Object.values(frames).forEach(f => f.ready.then(cw => { if (cw) cw.document.querySelectorAll('video,audio').forEach(level); }));
+    paintSound();
+  }
   const FRAME_CSS = `.topbar,.bottombar,.sidebar,.transcript,.cc-bar,.skip,.zoom-sizer,.gate-msg{display:none!important}
     .player{min-height:0!important}.stage-wrap{background:#0C1A2C!important}.stage{box-shadow:none!important}`;
   function frame(k) {
@@ -179,14 +189,16 @@
     const stage = d.getElementById('stage'), wrap = d.getElementById('stageWrap');
     const refit = () => { if (!stage || !wrap) return; const sc = Math.min(wrap.clientWidth / 1280, wrap.clientHeight / 720); stage.style.transformOrigin = ''; stage.style.left = ''; stage.style.top = ''; stage.style.transform = `translate(-50%,-50%) scale(${sc})`; };
     cw.addEventListener('resize', () => setTimeout(refit, 0)); cw.dispatchEvent(new Event('resize')); setTimeout(refit, 60);
-    // one voice at a time: nothing plays in a frame that isn't on screen, and the narration only when it's switched on
-    d.addEventListener('play', e => { const m = e.target; if (activeKey !== k || (m.id === 'vo' && !narration)) { try { m.pause(); } catch (x) { } } }, true);
-    const vo = d.querySelector('#vo'); if (vo) { vo.muted = !narration; if (!narration) vo.pause(); }
+    // one voice at a time: nothing plays in a frame that isn't on screen, and the course's narration only on a voice step;
+    // whatever does play takes the presenter's sound level (the course sets its own volume on every clip)
+    d.addEventListener('play', e => { const m = e.target; if (activeKey !== k || (m.id === 'vo' && !voiceOn())) { try { m.pause(); } catch (x) { } } else level(m); }, true);
+    d.querySelectorAll('video,audio').forEach(level);
+    const vo = d.querySelector('#vo'); if (vo && !(activeKey === k && voiceOn())) vo.pause();
     // a presenter clicker or the arrow keys move the demo even when the course has the focus
     cw.addEventListener('keydown', e => {
       if (e.target.closest && e.target.closest('input,textarea,select,[contenteditable]')) return;
       if (e.key === ' ' && e.target.closest && e.target.closest('button,a,[role=button],label')) return;
-      if (['ArrowRight', 'ArrowLeft', 'PageDown', 'PageUp', ' ', 'Home', 'n', 'N', 'f', 'F', 'm', 'M'].includes(e.key)) { e.preventDefault(); e.stopImmediatePropagation(); key(e); }
+      if (['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown', 'PageDown', 'PageUp', ' ', 'Home', 'n', 'N', 'f', 'F', 'm', 'M'].includes(e.key)) { e.preventDefault(); e.stopImmediatePropagation(); key(e); }
     }, true);
     d.addEventListener('mousemove', wake, { passive: true });
   }
@@ -230,6 +242,7 @@
     if (!v) return done();
     v.addEventListener('ended', done, { once: true });
     v.addEventListener('error', done, { once: true });
+    level(v);
     const p = v.play(); if (p && p.catch) p.catch(() => { v.muted = true; v.play().catch(done); });
     setTimeout(() => { if (!c.classList.contains('done') && v.paused && v.currentTime === 0) done(); }, 1500);
   }
@@ -275,14 +288,16 @@
       if (cw) {
         const P = cw.__player, idx = P.S.findIndex(s => s.id === x.screen);
         quiet(cw);
-        if (idx >= 0 && P.st().pos !== idx) P.go(idx);
-        const vo = cw.document.querySelector('#vo'); if (vo) { vo.muted = !narration; if (!narration) vo.pause(); }
-        // with the narration off, the presenter talks over the screen: show all of it at once, not cue by cue
-        if (!narration && P.revealAll) setTimeout(() => { try { P.revealAll(); } catch (e) { } }, 300);
+        const speak = voiceOn();
+        // a voice step always starts from its beginning, so the voice and the screen build together
+        if (idx >= 0 && (P.st().pos !== idx || speak)) P.go(idx);
+        const vo = cw.document.querySelector('#vo'); if (vo) { level(vo); if (!speak) vo.pause(); }
+        // without the voice the presenter talks over the screen: show all of it at once, not cue by cue
+        if (!speak && P.revealAll) setTimeout(() => { try { P.revealAll(); } catch (e) { } }, 300);
       }
       fr.el.classList.add('on'); shownFrame = fr;
       cardHost.classList.remove('on'); cardHost.querySelectorAll('video,audio').forEach(m => { try { m.pause(); } catch (e) { } });
-      lens.className = 'lens' + (MODS[x.course].track === 'pc' ? ' pc' : ''); lens.innerHTML = `<i></i>${esc(MODS[x.course].lens)}<span class="mini" aria-hidden="true">${[0, 1, 2, 3, 4, 5, 6].map(j => `<b class="${j < MODS[x.course].n ? 'past' : j === MODS[x.course].n ? 'now' : ''}"></b>`).join('')}</span>`; lens.hidden = false;
+      lens.className = 'lens' + (MODS[x.course].track === 'pc' ? ' pc' : ''); lens.innerHTML = `<i></i>${esc(MODS[x.course].lens)}<span class="mini" aria-hidden="true">${[0, 1, 2, 3, 4, 5, 6].map(j => `<b class="${j < MODS[x.course].n ? 'past' : j === MODS[x.course].n ? 'now' : ''}"></b>`).join('')}</span>${x.voice ? `<span class="voice">${SPK}<span class="v-on">Course voice</span><span class="v-off">Course voice muted</span></span>` : ''}`; lens.hidden = false; paintSound();
     }
     preload(i + 1); preload(i + 2);
   }
@@ -327,19 +342,31 @@
   const notes = $('#notes'), bN = $('#btnNotes');
   const toggleNotes = () => { notes.hidden = !notes.hidden; bN.setAttribute('aria-pressed', !notes.hidden); wake(); };
   bN.addEventListener('click', toggleNotes);
-  const toggleNarr = () => {
-    narration = !narration;
-    $('.notes-keys').textContent = `Right arrow or clicker: next · Left: back · F: full screen · M: course narration (${narration ? 'on' : 'off'})`;
-    Object.values(frames).forEach(f => f.ready.then(cw => { if (!cw) return; const vo = cw.document.querySelector('#vo'); if (vo) { vo.muted = !narration; if (!narration) vo.pause(); } }));
-  };
+  const SPK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z" fill="currentColor"/><path d="M15.5 9.5a3.5 3.5 0 0 1 0 5M18 7a7 7 0 0 1 0 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
+  const bS = $('#btnSound'), vol = $('#vol');
+  function paintSound() {
+    const off = sound.muted || sound.vol === 0;
+    bS.classList.toggle('off', off); bS.setAttribute('aria-pressed', String(!off));
+    bS.title = off ? 'Sound is off (M turns it on)' : 'Sound on (M mutes)'; bS.setAttribute('aria-label', off ? 'Turn sound on' : 'Mute sound');
+    vol.value = sound.vol; vol.style.setProperty('--p', Math.round(sound.vol * 100) + '%'); vol.setAttribute('aria-valuetext', Math.round(sound.vol * 100) + ' percent');
+    $('.sound').classList.toggle('off', off); lens.classList.toggle('muted', off);
+  }
+  const toggleMute = () => { if (sound.vol === 0) { sound.vol = 0.5; sound.muted = false; } else sound.muted = !sound.muted; applySound(); };
+  const nudgeVol = d => { sound.vol = Math.round(Math.min(1, Math.max(0, sound.vol + d)) * 20) / 20; if (d > 0) sound.muted = false; applySound(); };
+  bS.addEventListener('click', toggleMute);
+  vol.addEventListener('input', () => { sound.vol = +vol.value; if (sound.vol > 0) sound.muted = false; applySound(); });
+  // let go of the slider: the clicker and arrow keys go back to moving the demo
+  vol.addEventListener('change', () => vol.blur());
   const full = () => { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen().catch(() => { }); };
   $('#btnFull').addEventListener('click', full);
   function key(e) {
-    if (e.target && e.target.closest && e.target.closest('input,textarea,select')) return;
+    if (e.target && e.target.closest && e.target.closest('input:not([type=range]),textarea,select')) return;
     if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); go(1); }
     else if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); go(-1); }
     else if (e.key === 'n' || e.key === 'N') toggleNotes();
-    else if (e.key === 'm' || e.key === 'M') toggleNarr();
+    else if (e.key === 'm' || e.key === 'M') toggleMute();
+    else if (e.key === 'ArrowUp') { e.preventDefault(); nudgeVol(0.1); }
+    else if (e.key === 'ArrowDown') { e.preventDefault(); nudgeVol(-0.1); }
     else if (e.key === 'f' || e.key === 'F') full();
     else if (e.key === 'Home') show(0);
     wake();
@@ -348,6 +375,7 @@
   window.addEventListener('resize', () => { fit(); if (FLAT[cur] && FLAT[cur].pdf) pdfCard(FLAT[cur].pdf, FLAT[cur].label); });
 
   seed();
+  applySound();
   show(0);
   window.__demo = { show, FLAT, frames, get cur() { return cur; } };
 })();
