@@ -4,47 +4,48 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>M.V.P. Accelerator · 15-minute demo</title>
-<!-- The 15-minute demo (Oct 14, 2026). A presenter shell that walks the room through the real course: one participant
-     and their manager across a season. Course screens open live from the review build (same site), joined by short
-     chapter cards. Presenter keys: Right/Space next, Left back, N notes, M narration, F full screen, Home start. -->
-<link rel="stylesheet" href="demo.css?v=1">
+<!-- The 15-minute demo (v2, Oct 14, 2026). A presenter shell that walks the room through the real course: one participant
+     and their manager across a season. Course screens open live from the review build (same site), with the course's own
+     bars hidden so there is one set of controls. Keys: Right/Space/PageDown next, Left/PageUp back, N notes, F full screen,
+     M course narration, Home start. -->
+<link rel="stylesheet" href="demo.css?v=4">
 </head>
 <body>
 <div id="app">
-  <header class="bar">
+  <header class="bar top">
     <img class="lockup" src="assets/lockup_white.png" alt="M.V.P. Accelerator, powered by Athleadership Arena">
     <ol class="stops" id="stops" aria-label="Demo outline"></ol>
-    <div class="clock" id="clock" title="Time since the demo started (planned: 15 minutes)" aria-live="off">0:00 <small>/ 15:00</small></div>
   </header>
 
   <main class="stage-wrap">
     <div class="stage" id="stage">
-      <div class="card-host" id="cardHost" aria-live="polite"></div>
       <div class="frames" id="frames"></div>
-      <div class="loading" id="loading" hidden><span></span>Opening the course screen…</div>
+      <div class="card-host" id="cardHost" aria-live="polite"></div>
+      <div class="lens" id="lens" hidden></div>
+      <div class="loading" id="loading" hidden><span></span></div>
     </div>
   </main>
 
   <footer class="bar foot">
-    <button class="nav" id="back" aria-label="Back">‹ Back</button>
-    <div class="where"><span id="stopName"></span><span class="dots" id="dots"></span></div>
+    <button class="nav back" id="back" aria-label="Back"><span aria-hidden="true">‹</span> Back</button>
+    <div class="where"><span class="stopname" id="stopName"></span><span class="dots" id="dots"></span></div>
     <div class="tools">
-      <button class="tool" id="btnNarr" aria-pressed="false" title="Course narration (M)">Narration off</button>
-      <button class="tool" id="btnNotes" aria-pressed="false" title="Presenter notes (N)">Notes</button>
-      <button class="tool" id="btnFull" title="Full screen (F)">Full screen</button>
+      <button class="tool" id="btnNotes" aria-pressed="false" title="Presenter notes (N)" aria-label="Presenter notes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v12H9l-4 4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></button>
+      <button class="tool" id="btnFull" title="Full screen (F)" aria-label="Full screen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
     </div>
-    <button class="nav next" id="next"><span id="nextLbl">Next</span> ›</button>
+    <button class="nav next" id="next"><span id="nextLbl">Start</span> <span aria-hidden="true">›</span></button>
   </footer>
 
   <aside class="notes" id="notes" hidden aria-label="Presenter notes">
-    <div class="notes-head"><b>Presenter notes</b><span id="notesTime"></span></div>
+    <div class="notes-head"><b id="notesTitle">Presenter notes</b><span id="notesTime"></span></div>
     <p id="notesText"></p>
     <p class="notes-do" id="notesDo"></p>
+    <p class="notes-keys">Right arrow or clicker: next · Left: back · F: full screen · M: course narration (off)</p>
   </aside>
 </div>
-<script src="config.js?v=1"></script>
-<script src="stops.js?v=1"></script>
+<script src="config.js?v=4"></script>
+<script src="stops.js?v=4"></script>
 <script src="vendor/pdf.min.js"></script>
-<script src="demo.js?v=1"></script>
+<script src="demo.js?v=4"></script>
 </body>
 </html>
